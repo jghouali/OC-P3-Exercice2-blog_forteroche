@@ -1,7 +1,7 @@
 <?php
 
-require_once 'config/config.php';
-require_once 'config/autoload.php';
+require_once '../config/config.php';
+require_once '../config/autoload.php';
 
 // On récupère l'action demandée par l'utilisateur.
 // Si aucune action n'est demandée, on affiche la page d'accueil.
@@ -21,8 +21,8 @@ try {
             $articleController = new ArticleController();
             $articleController->showApropos();
             break;
-        
-        case 'showArticle': 
+
+        case 'showArticle':
             $articleController = new ArticleController();
             $articleController->showArticle();
             break;
@@ -39,7 +39,7 @@ try {
 
 
         // Section admin & connexion. 
-        case 'admin': 
+        case 'admin':
             $adminController = new AdminController();
             $adminController->showAdmin();
             break;
@@ -49,7 +49,7 @@ try {
             $adminController->displayConnectionForm();
             break;
 
-        case 'connectUser': 
+        case 'connectUser':
             $adminController = new AdminController();
             $adminController->connectUser();
             break;
@@ -64,7 +64,7 @@ try {
             $adminController->showUpdateArticleForm();
             break;
 
-        case 'updateArticle': 
+        case 'updateArticle':
             $adminController = new AdminController();
             $adminController->updateArticle();
             break;
