@@ -47,6 +47,8 @@ class AdminController
         $view = new View("Supervision des Articles");
         $view->render("monitor", [
             'articles' => $articles,
+            'sort' => $sort,
+            'colorSelected' => 'style="color: var(--commentColor)"'
         ]);
     }
 

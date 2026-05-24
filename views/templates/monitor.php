@@ -11,11 +11,11 @@
 <table class="monitorArticle">
     <thead>
         <tr class="monitorHeader">
-            <th class="title">Titre<br><a href="index.php?action=monitor&sort=title-za">🠱</a> <a href="index.php?action=monitor&sort=title-az">🠳</a></th>
+            <th class="title">Titre<br><a href="index.php?action=monitor&sort=title-za" <?= ($sort === 'title-za') ? $colorSelected : '' ?>>🠱</a> <a href="index.php?action=monitor&sort=title-az" <?= ($sort === 'title-az') ? $colorSelected : '' ?>>🠳</a></th>
             <th class="content">Contenu</th>
-            <th class="content">Création<br><a href="index.php?action=monitor&sort=creation-za">🠱</a> <a href="index.php?action=monitor&sort=creation-az">🠳</a></th>
-            <th class="content">Vue(s)<br><a href="index.php?action=monitor&sort=views-za">🠱</a> <a href="index.php?action=monitor&sort=views-az">🠳</a></th>
-            <th class="content">Commentaires<br><a href="index.php?action=monitor&sort=comments-za">🠱</a> <a href="index.php?action=monitor&sort=comments-az">🠳</a></th>
+            <th class="content">Création<br><a href="index.php?action=monitor&sort=creation-za" <?= ($sort === 'creation-za') ? $colorSelected : '' ?>>🠱</a> <a href="index.php?action=monitor&sort=creation-az" <?= ($sort === 'creation-az') ? $colorSelected : '' ?>>🠳</a></th>
+            <th class="content">Vue(s)<br><a href="index.php?action=monitor&sort=views-za" <?= ($sort === 'views-za') ? $colorSelected : '' ?>>🠱</a> <a href="index.php?action=monitor&sort=views-az" <?= ($sort === 'views-az') ? $colorSelected : '' ?>>🠳</a></th>
+            <th class="content">Commentaires<br><a href="index.php?action=monitor&sort=comments-za" <?= ($sort === 'comments-za') ? $colorSelected : '' ?>>🠱</a> <a href="index.php?action=monitor&sort=comments-az" <?= ($sort === 'comments-az') ? $colorSelected : '' ?>>🠳</a></th>
         </tr>
     </thead>
     <tbody>
