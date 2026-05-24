@@ -36,23 +36,17 @@ class AdminController
         // On vérifie que l'utilisateur est connecté.
         $this->checkIfUserIsConnected();
 
-        // On récupère les articles.
-        $articleManager = new ArticleManager();
-        $articles = $articleManager->getAllArticles();
+        // On récupère le parametre de tri s'il existe.
+        $sort = Utils::request("sort", -1);
 
-        // On récupère la liste des commantaires.
-        $commentManager = new CommentManager();
-        // On compte le nombre de commentaire
-        $commentsCount = [];
-        foreach ($articles as $article) {
-            $commentsCount[$article->getId()] = count($commentManager->getAllCommentsByArticleId($article->getId()));
-        }
+        // On récupère les articles avec le nombre de commentaire.
+        $articleManager = new ArticleManager();
+        $articles = $articleManager->getAllArticlesWithCommentsCount($sort);
 
         // On affiche la page d'administration.
         $view = new View("Supervision des Articles");
         $view->render("monitor", [
             'articles' => $articles,
-            'commentsCount' => $commentsCount
         ]);
     }
 

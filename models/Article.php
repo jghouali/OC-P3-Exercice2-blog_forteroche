@@ -12,6 +12,7 @@ class Article extends AbstractEntity
     private ?DateTime $dateCreation = null;
     private ?DateTime $dateUpdate = null;
     private int $viewsCount = 0;
+    private int $commentsCount = 0;
 
     /**
      * Setter pour l'id de l'utilisateur. 
@@ -154,5 +155,23 @@ class Article extends AbstractEntity
     public function incrementViewsCount(): void
     {
         $this->viewsCount += 1;
+    }
+
+    /**
+     * Getter pour le nombre de vue.
+     * @return int
+     */
+    public function getCommentsCount(): int
+    {
+        return $this->commentsCount;
+    }
+
+    /**
+     * Getter pour le nombre de vue.
+     * @return int
+     */
+    public function setCommentsCount(int $commentsCount): void
+    {
+        $this->commentsCount = $commentsCount;
     }
 }

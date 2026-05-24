@@ -21,6 +21,56 @@ class ArticleManager extends AbstractEntityManager
         return $articles;
     }
 
+    public function getAllArticlesWithCommentsCount(string $sort): array
+    {
+        $sql = "SELECT 
+                    article.*,
+                    COUNT(comment.id_article) as comments_count
+                FROM article, comment
+                WHERE article.id = comment.id_article
+                GROUP BY comment.id_article ";
+        switch ($sort) {
+            case 'title-az':
+                $sql = $sql . "ORDER BY title ASC";
+                break;
+
+            case 'title-za':
+                $sql = $sql . "ORDER BY title DESC";
+                break;
+
+            case 'creation-az':
+                $sql = $sql . "ORDER BY date_creation ASC";
+                break;
+
+            case 'creation-za':
+                $sql = $sql . "ORDER BY date_creation DESC";
+                break;
+
+            case 'views-az':
+                $sql = $sql . "ORDER BY views_count ASC";
+                break;
+
+            case 'views-za':
+                $sql = $sql . "ORDER BY views_count DESC";
+                break;
+
+            case 'comments-az':
+                $sql = $sql . "ORDER BY comments_count ASC";
+                break;
+
+            case 'comments-za':
+                $sql = $sql . "ORDER BY comments_count DESC";
+                break;
+        }
+        $result = $this->db->query($sql);
+        $articles = [];
+
+        while ($article = $result->fetch()) {
+            $articles[] = new Article($article);
+        }
+        return $articles;
+    }
+
     /**
      * Récupère un article par son id.
      * @param int $id : l'id de l'article.

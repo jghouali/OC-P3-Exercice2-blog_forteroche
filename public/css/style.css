@@ -322,10 +322,6 @@ a.info {
     display: flex;
 }
 
-.articleLine2 {
-    background-color: var(--commentColor);
-}
-
 .articleLine div {
     display: flex;
     align-items: center;
@@ -344,6 +340,45 @@ a.info {
 .articleLine>div {
     padding: 20px;
     border: 1px solid var(--backgroundColor);
+}
+
+.monitorArticle {
+    margin-bottom: 20px;
+    color: white;
+}
+
+.monitorHeader {
+    font-weight: bold;
+    font-size: large;
+    background-color: var(--headerColor);
+}
+
+.monitorHeader th {
+    padding: 4px;
+}
+
+.monitorLine {
+    background-color: var(--commentPaleColor);
+}
+
+.monitorLine .contentCenter {
+    text-align: center;
+}
+
+.monitorLine2 {
+    background-color: var(--commentColor);
+}
+
+.monitorLine .title {
+    font-weight: bold;
+    min-width: 200px;
+    width: 200px;
+}
+
+.monitorLine>td,
+.monitorLine>th {
+    padding: 20px;
+    border: 0px solid var(--backgroundColor);
 }
 
 /** 
