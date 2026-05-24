@@ -78,7 +78,7 @@ class ArticleManager extends AbstractEntityManager
         $this->db->query($sql, [
             'title' => $article->getTitle(),
             'content' => $article->getContent(),
-            'views_count' => $article->getViewCount(),
+            'views_count' => $article->getViewsCount(),
             'id' => $article->getId()
         ]);
     }
