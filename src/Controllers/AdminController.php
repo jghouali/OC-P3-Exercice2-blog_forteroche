@@ -4,6 +4,17 @@
  * Contrôleur de la partie admin.
  */
 
+namespace App\Controllers;
+
+use App\Entities\Article;
+use App\Repositories\ArticleRepository;
+use App\Repositories\CommentRepository;
+use App\Repositories\UserRepository;
+use App\Views\View;
+use App\Services\WebHelper;
+use App\Services\ContentFormatter;
+use Exception;
+
 class AdminController
 {
 
@@ -17,8 +28,8 @@ class AdminController
         $this->checkIfUserIsConnected();
 
         // On récupère les articles.
-        $articleManager = new ArticleManager();
-        $articles = $articleManager->getAllArticles();
+        $articleRepository = new ArticleRepository();
+        $articles = $articleRepository->getAllArticles();
 
         // On affiche la page d'administration.
         $view = new View("Administration");
@@ -37,11 +48,11 @@ class AdminController
         $this->checkIfUserIsConnected();
 
         // On récupère le parametre de tri s'il existe.
-        $sort = Utils::request("sort", -1);
+        $sort = WebHelper::request("sort", -1);
 
         // On récupère les articles avec le nombre de commentaire.
-        $articleManager = new ArticleManager();
-        $articles = $articleManager->getAllArticlesWithCommentsCount($sort);
+        $articleRepository = new ArticleRepository();
+        $articles = $articleRepository->getAllArticlesWithCommentsCount($sort);
 
         // On affiche la page d'administration.
         $view = new View("Supervision des Articles");
@@ -60,7 +71,7 @@ class AdminController
     {
         // On vérifie que l'utilisateur est connecté.
         if (!isset($_SESSION['user'])) {
-            Utils::redirect("connectionForm");
+            WebHelper::redirect("connectionForm");
         }
     }
 
@@ -81,8 +92,8 @@ class AdminController
     public function connectUser(): void
     {
         // On récupère les données du formulaire.
-        $login = Utils::request("login");
-        $password = Utils::request("password");
+        $login = WebHelper::request("login");
+        $password = WebHelper::request("password");
 
         // On vérifie que les données sont valides.
         if (empty($login) || empty($password)) {
@@ -90,8 +101,8 @@ class AdminController
         }
 
         // On vérifie que l'utilisateur existe.
-        $userManager = new UserManager();
-        $user = $userManager->getUserByLogin($login);
+        $userRepository = new UserRepository();
+        $user = $userRepository->getUserByLogin($login);
         if (!$user) {
             throw new Exception("L'utilisateur demandé n'existe pas.");
         }
@@ -107,7 +118,7 @@ class AdminController
         $_SESSION['idUser'] = $user->getId();
 
         // On redirige vers la page d'administration.
-        Utils::redirect("admin");
+        WebHelper::redirect("admin");
     }
 
     /**
@@ -120,7 +131,7 @@ class AdminController
         unset($_SESSION['user']);
 
         // On redirige vers la page d'accueil.
-        Utils::redirect("home");
+        WebHelper::redirect("home");
     }
 
     /**
@@ -132,11 +143,11 @@ class AdminController
         $this->checkIfUserIsConnected();
 
         // On récupère l'id de l'article s'il existe.
-        $id = Utils::request("id", -1);
+        $id = WebHelper::request("id", -1);
 
         // On récupère l'article associé.
-        $articleManager = new ArticleManager();
-        $article = $articleManager->getArticleById($id);
+        $articleRepository = new ArticleRepository();
+        $article = $articleRepository->getArticleById($id);
 
         // Si l'article n'existe pas, on en crée un vide. 
         if (!$article) {
@@ -160,14 +171,19 @@ class AdminController
         $this->checkIfUserIsConnected();
 
         // On récupère les données du formulaire.
-        $id = Utils::request("id", -1);
-        $title = Utils::request("title");
-        $content = Utils::request("content");
+        $id = WebHelper::request("id", -1);
+        $title = WebHelper::request("title");
+        $content = WebHelper::request("content");
 
         // On vérifie que les données sont valides.
         if (empty($title) || empty($content)) {
             throw new Exception("Tous les champs sont obligatoires. 2");
         }
+
+        // On sanitize les données
+        $contentFormatter = new ContentFormatter();
+        $content = $contentFormatter->sanitize($content);
+        $title = $contentFormatter->sanitize($title);
 
         // On crée l'objet Article.
         $article = new Article([
@@ -178,11 +194,11 @@ class AdminController
         ]);
 
         // On ajoute l'article.
-        $articleManager = new ArticleManager();
-        $articleManager->addOrUpdateArticle($article);
+        $articleRepository = new ArticleRepository();
+        $articleRepository->addOrUpdateArticle($article);
 
         // On redirige vers la page d'administration.
-        Utils::redirect("admin");
+        WebHelper::redirect("admin");
     }
 
 
@@ -194,14 +210,14 @@ class AdminController
     {
         $this->checkIfUserIsConnected();
 
-        $id = Utils::request("id", -1);
+        $id = WebHelper::request("id", -1);
 
         // On supprime l'article.
-        $articleManager = new ArticleManager();
-        $articleManager->deleteArticle($id);
+        $articleRepository = new ArticleRepository();
+        $articleRepository->deleteArticle($id);
 
         // On redirige vers la page d'administration.
-        Utils::redirect("admin");
+        WebHelper::redirect("admin");
     }
 
 
@@ -213,15 +229,15 @@ class AdminController
     {
         $this->checkIfUserIsConnected();
 
-        $commentId = Utils::request("commentId", -1);
-        $articleId = Utils::request("articleId", -1);
+        $commentId = WebHelper::request("commentId", -1);
+        $articleId = WebHelper::request("articleId", -1);
 
         // On supprime le commentaire.
-        $commentManager = new CommentManager();
-        $comment = $commentManager->getCommentById($commentId);
-        $commentManager->deleteComment($comment);
+        $commentRepository = new CommentRepository();
+        $comment = $commentRepository->getCommentById($commentId);
+        $commentRepository->deleteComment($comment);
 
         // On redirige vers la page d'administration.
-        Utils::redirect("showArticle", ['id' => $articleId]);
+        WebHelper::redirect("showArticle", ['id' => $articleId]);
     }
 }

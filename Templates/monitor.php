@@ -3,7 +3,13 @@
 /** 
  * Affichage de la partie Supervision : liste des articles avec le nombre de vues, 
  * le nombre de commentaires et la date de publication de l'article 
+ * @var string $sort indique : le tri à appliquer
+ * @var string $colorSelected : le flag pour avoir un style différent si le tri est séléctionné
+ * @var array $articles : liste des objets Article
  */
+
+use App\Services\WebHelper;
+
 ?>
 
 <h2>liste des articles</h2>
@@ -30,8 +36,8 @@
                 <tr class="monitorLine monitorLine2">
                 <?php } ?>
                 <td class="title"><?= $article->getTitle() ?></td>
-                <td class="content"><?= $article->getContent(200) ?></td>
-                <td class="contentCenter"> <?= ucfirst(Utils::convertDateToFrenchFormat($article->getDateCreation())) ?> </td>
+                <td class="content"><?= $article->showFormattedContent($article->getContent(), 200) ?></td>
+                <td class="contentCenter"> <?= ucfirst($article->getDateCreation()) ?> </td>
                 <td class="contentCenter"><?= $article->getViewsCount() ?> </td>
                 <td class="contentCenter"> <?= $article->getCommentsCount() ?> </td>
                 </tr>

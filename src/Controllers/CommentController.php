@@ -1,17 +1,25 @@
 <?php
 
-class CommentController 
+namespace App\Controllers;
+
+use App\Repositories\ArticleRepository;
+use App\Repositories\CommentRepository;
+use App\Entities\Comment;
+use App\Services\WebHelper;
+use Exception;
+
+class CommentController
 {
     /**
      * Ajoute un commentaire.
      * @return void
      */
-    public function addComment() : void
+    public function addComment(): void
     {
         // Récupération des données du formulaire.
-        $pseudo = Utils::request("pseudo");
-        $content = Utils::request("content");
-        $idArticle = Utils::request("idArticle");
+        $pseudo = WebHelper::request("pseudo");
+        $content = WebHelper::request("content");
+        $idArticle = WebHelper::request("idArticle");
 
         // On vérifie que les données sont valides.
         if (empty($pseudo) || empty($content) || empty($idArticle)) {
@@ -19,7 +27,7 @@ class CommentController
         }
 
         // On vérifie que l'article existe.
-        $articleManager = new ArticleManager();
+        $articleManager = new ArticleRepository();
         $article = $articleManager->getArticleById($idArticle);
         if (!$article) {
             throw new Exception("L'article demandé n'existe pas.");
@@ -33,7 +41,7 @@ class CommentController
         ]);
 
         // On ajoute le commentaire.
-        $commentManager = new CommentManager();
+        $commentManager = new CommentRepository();
         $result = $commentManager->addComment($comment);
 
         // On vérifie que l'ajout a bien fonctionné.
@@ -42,6 +50,6 @@ class CommentController
         }
 
         // On redirige vers la page de l'article.
-        Utils::redirect("showArticle", ['id' => $idArticle]);
+        WebHelper::redirect("showArticle", ['id' => $idArticle]);
     }
 }

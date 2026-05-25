@@ -4,8 +4,8 @@
  * Ce fichier est le template principal qui "contient" ce qui aura été généré par les autres vues.  
  * 
  * Les variables qui doivent impérativement être définie sont : 
- *      $title string : le titre de la page.
- *      $content string : le contenu de la page. 
+ *     @var string $title string : le titre de la page.
+ *     @var string $content string : le contenu de la page. 
  */
 
 ?>

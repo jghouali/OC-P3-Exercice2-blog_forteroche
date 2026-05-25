@@ -1,11 +1,17 @@
 <?php
 
-require_once '../config/config.php';
-require_once '../config/autoload.php';
+require_once '../src/config/config.php';
+require_once '../src/config/autoload.php';
+
+use App\Controllers\ArticleController;
+use App\Controllers\AdminController;
+use App\Controllers\CommentController;
+use App\Views\View;
+use App\Services\WebHelper;
 
 // On récupère l'action demandée par l'utilisateur.
 // Si aucune action n'est demandée, on affiche la page d'accueil.
-$action = Utils::request('action', 'home');
+$action = WebHelper::request('action', 'home');
 
 // Try catch global pour gérer les erreurs
 try {

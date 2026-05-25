@@ -3,18 +3,19 @@
 /**
  * Ce template affiche un article et ses commentaires.
  * Il affiche également un formulaire pour ajouter un commentaire.
+ * @var Article $article send by View
  */
 ?>
 
 <article class="mainArticle">
-    <h2> <?= Utils::format($article->getTitle()) ?> </h2>
+    <h2> <?= $article->showFormattedContent($article->getTitle()) ?> </h2>
     <span class="quotation">«</span>
-    <p><?= Utils::format($article->getContent()) ?></p>
+    <p><?= $article->showFormattedContent($article->getContent()) ?></p>
 
     <div class="footer">
-        <span class="info"> Publié le <?= Utils::convertDateToFrenchFormat($article->getDateCreation()) ?></span>
+        <span class="info"> Publié le <?= $article->getDateCreation() ?></span>
         <?php if ($article->getDateUpdate() != null) { ?>
-            <span class="info"> Modifié le <?= Utils::convertDateToFrenchFormat($article->getDateUpdate()) ?></span>
+            <span class="info"> Modifié le <?= $article->getDateUpdate() ?></span>
         <?php } ?>
     </div>
 </article>
@@ -30,8 +31,8 @@
             echo '<li>';
             echo '  <div class="smiley">☻</div>';
             echo '  <div class="detailComment">';
-            echo '      <h3 class="info">Le ' . Utils::convertDateToFrenchFormat($comment->getDateCreation()) . ", " . Utils::format($comment->getPseudo()) . ' a écrit :</h3>';
-            echo '      <p class="content">' . Utils::format($comment->getContent()) . '</p>';
+            echo '      <h3 class="info">Le ' . $comment->getDateCreation() . ", " . $article->showFormattedContent($comment->getPseudo()) . ' a écrit :</h3>';
+            echo '      <p class="content">' . $article->showFormattedContent($comment->getContent()) . '</p>';
             echo '  </div>';
             if (isset($_SESSION['user'])) {
                 $articleId = $article->getId();

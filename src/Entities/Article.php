@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Entities;
+
+use DateTime;
+
 /**
  * Entité Article, un article est défini par les champs
  * id, id_user, title, content, date_creation, date_update
@@ -59,25 +63,12 @@ class Article extends AbstractEntity
         $this->content = $content;
     }
 
-
     /**
      * Getter pour le contenu.
-     * Retourne les $length premiers caractères du contenu.
-     * @param int $length : le nombre de caractères à retourner.
-     * Si $length n'est pas défini (ou vaut -1), on retourne tout le contenu.
-     * Si le contenu est plus grand que $length, on retourne les $length premiers caractères avec "..." à la fin.
      * @return string
      */
-    public function getContent(int $length = -1): string
+    public function getContent(): string
     {
-        if ($length > 0) {
-            // Ici, on utilise mb_substr et pas substr pour éviter de couper un caractère en deux (caractère multibyte comme les accents).
-            $content = mb_substr($this->content, 0, $length);
-            if (strlen($this->content) > $length) {
-                $content .= "...";
-            }
-            return $content;
-        }
         return $this->content;
     }
 
@@ -97,12 +88,12 @@ class Article extends AbstractEntity
 
     /**
      * Getter pour la date de création.
-     * Grâce au setter, on a la garantie de récupérer un objet DateTime.
-     * @return DateTime
+     * La date est affiché selon la locale definit dans config.php
+     * @return string
      */
-    public function getDateCreation(): DateTime
+    public function getDateCreation(): string
     {
-        return $this->dateCreation;
+        return $this->dateFormat($this->dateCreation);
     }
 
     /**
@@ -121,13 +112,12 @@ class Article extends AbstractEntity
 
     /**
      * Getter pour la date de mise à jour.
-     * Grâce au setter, on a la garantie de récupérer un objet DateTime ou null
-     * si la date de mise à jour n'a pas été définie.
-     * @return DateTime|null
+     * La date est affiché selon la locale definit dans config.php
+     * @return string|null
      */
-    public function getDateUpdate(): ?DateTime
+    public function getDateUpdate(): string|null
     {
-        return $this->dateUpdate;
+        return $this->dateFormat($this->dateUpdate);
     }
 
     /**
@@ -140,8 +130,8 @@ class Article extends AbstractEntity
     }
 
     /**
-     * Getter pour le nombre de vue.
-     * @return int
+     * Setter pour le nombre de vue.
+     * @param int $viewsCount nombre de vues
      */
     public function setViewsCount(int $viewsCount): void
     {
@@ -167,8 +157,8 @@ class Article extends AbstractEntity
     }
 
     /**
-     * Getter pour le nombre de vue.
-     * @return int
+     * Setter pour le nombre de vue.
+     * @param $commentsCount int
      */
     public function setCommentsCount(int $commentsCount): void
     {

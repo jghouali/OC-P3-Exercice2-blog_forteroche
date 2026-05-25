@@ -1,5 +1,13 @@
 <?php
 
+namespace App\Controllers;
+
+use App\Repositories\ArticleRepository;
+use App\Repositories\CommentRepository;
+use App\Views\View;
+use App\Services\WebHelper;
+use Exception;
+
 class ArticleController
 {
     /**
@@ -8,7 +16,7 @@ class ArticleController
      */
     public function showHome(): void
     {
-        $articleManager = new ArticleManager();
+        $articleManager = new ArticleRepository();
         $articles = $articleManager->getAllArticles();
 
         $view = new View("Accueil");
@@ -22,16 +30,16 @@ class ArticleController
     public function showArticle(): void
     {
         // Récupération de l'id de l'article demandé.
-        $id = Utils::request("id", -1);
+        $id = WebHelper::request("id", -1);
 
-        $articleManager = new ArticleManager();
+        $articleManager = new ArticleRepository();
         $article = $articleManager->getArticleById($id);
 
         if (!$article) {
             throw new Exception("L'article demandé n'existe pas.");
         }
 
-        $commentManager = new CommentManager();
+        $commentManager = new CommentRepository();
         $comments = $commentManager->getAllCommentsByArticleId($id);
 
         $view = new View($article->getTitle());

@@ -1,9 +1,14 @@
 <?php
 
+namespace App\Repositories;
+
+use App\Entities\Article;
+use App\Repositories\AbstractRepository;
+
 /**
  * Classe qui gère les articles.
  */
-class ArticleManager extends AbstractEntityManager
+class ArticleRepository extends AbstractRepository
 {
     /**
      * Récupère tous les articles.
@@ -23,12 +28,12 @@ class ArticleManager extends AbstractEntityManager
 
     public function getAllArticlesWithCommentsCount(string $sort): array
     {
-        $sql = "SELECT 
-                    article.*,
+        $sql = "SELECT article.*,
                     COUNT(comment.id_article) as comments_count
-                FROM article, comment
-                WHERE article.id = comment.id_article
-                GROUP BY comment.id_article ";
+                    FROM article
+                    LEFT JOIN comment
+                    ON article.id = comment.id_article
+                    GROUP BY article.id ";
         switch ($sort) {
             case 'title-az':
                 $sql = $sql . "ORDER BY title ASC";
@@ -109,7 +114,7 @@ class ArticleManager extends AbstractEntityManager
      */
     public function addArticle(Article $article): void
     {
-        $sql = "INSERT INTO article (id_user, title, content, date_creation, views_count) VALUES (:id_user, :title, :content, NOW(), 0)";
+        $sql = "INSERT INTO article (id_user, title, content, date_creation, date_update, views_count) VALUES (:id_user, :title, :content, NOW(), NOW(), 0)";
         $this->db->query($sql, [
             'id_user' => $article->getIdUser(),
             'title' => $article->getTitle(),
