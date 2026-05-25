@@ -24,6 +24,7 @@ class WebHelper
         foreach ($params as $paramName => $paramValue) {
             $url .= "&$paramName=$paramValue";
         }
+
         header("Location: $url");
         exit();
     }

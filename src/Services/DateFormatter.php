@@ -26,6 +26,7 @@ class DateFormatter
         // Ca peut se faire depuis php.ini ou parfois directement depuis votre utilitaire (wamp/mamp/xamp)
         $dateFormatter = new IntlDateFormatter($this->locale, IntlDateFormatter::FULL, IntlDateFormatter::FULL);
         $dateFormatter->setPattern('EEEE d MMMM Y');
+
         return $dateFormatter->format($dateTime);
     }
 }

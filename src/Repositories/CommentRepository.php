@@ -24,6 +24,7 @@ class CommentRepository extends AbstractRepository
         while ($comment = $result->fetch()) {
             $comments[] = new Comment($comment);
         }
+
         return $comments;
     }
 
@@ -38,8 +39,10 @@ class CommentRepository extends AbstractRepository
         $result = $this->db->query($sql, ['id' => $id]);
         $comment = $result->fetch();
         if ($comment) {
+
             return new Comment($comment);
         }
+
         return null;
     }
 
@@ -50,12 +53,22 @@ class CommentRepository extends AbstractRepository
      */
     public function addComment(Comment $comment): bool
     {
-        $sql = "INSERT INTO comment (pseudo, content, id_article, date_creation) VALUES (:pseudo, :content, :idArticle, NOW())";
+        $sql = "INSERT INTO comment (
+                    pseudo,
+                    content,
+                    id_article,
+                    date_creation)
+                VALUES (
+                    :pseudo,
+                    :content,
+                    :idArticle,
+                    NOW())";
         $result = $this->db->query($sql, [
             'pseudo' => $comment->getPseudo(),
             'content' => $comment->getContent(),
             'idArticle' => $comment->getIdArticle()
         ]);
+
         return $result->rowCount() > 0;
     }
 
@@ -68,6 +81,7 @@ class CommentRepository extends AbstractRepository
     {
         $sql = "DELETE FROM comment WHERE id = :id";
         $result = $this->db->query($sql, ['id' => $comment->getId()]);
+
         return $result->rowCount() > 0;
     }
 }

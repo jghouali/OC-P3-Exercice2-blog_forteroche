@@ -23,6 +23,7 @@ class ArticleRepository extends AbstractRepository
         while ($article = $result->fetch()) {
             $articles[] = new Article($article);
         }
+
         return $articles;
     }
 
@@ -77,6 +78,7 @@ class ArticleRepository extends AbstractRepository
         while ($article = $result->fetch()) {
             $articles[] = new Article($article);
         }
+
         return $articles;
     }
 
@@ -91,8 +93,10 @@ class ArticleRepository extends AbstractRepository
         $result = $this->db->query($sql, ['id' => $id]);
         $article = $result->fetch();
         if ($article) {
+
             return new Article($article);
         }
+
         return null;
     }
 
@@ -118,7 +122,20 @@ class ArticleRepository extends AbstractRepository
      */
     public function addArticle(Article $article): void
     {
-        $sql = "INSERT INTO article (id_user, title, content, date_creation, date_update, views_count) VALUES (:id_user, :title, :content, NOW(), NOW(), 0)";
+        $sql = "INSERT INTO article (
+                    id_user,
+                    title,
+                    content,
+                    date_creation,
+                    date_update,
+                    views_count)
+                VALUES (
+                    :id_user,
+                    :title,
+                    :content,
+                    NOW(),
+                    NOW(),
+                    0)";
         $this->db->query($sql, [
             'id_user' => $article->getIdUser(),
             'title' => $article->getTitle(),
@@ -133,7 +150,13 @@ class ArticleRepository extends AbstractRepository
      */
     public function updateArticle(Article $article): void
     {
-        $sql = "UPDATE article SET title = :title, content = :content, date_update = NOW(), views_count = :views_count WHERE id = :id";
+        $sql = "UPDATE article
+                SET
+                    title = :title,
+                    content = :content,
+                    date_update = NOW(),
+                    views_count = :views_count
+                WHERE id = :id";
         $this->db->query($sql, [
             'title' => $article->getTitle(),
             'content' => $article->getContent(),

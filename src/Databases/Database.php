@@ -41,6 +41,7 @@ class Database
         if (!self::$instance) {
             self::$instance = new Database();
         }
+
         return self::$instance;
     }
 
@@ -68,6 +69,7 @@ class Database
             $query = $this->db->prepare($sql);
             $query->execute($params);
         }
+
         return $query;
     }
 }
