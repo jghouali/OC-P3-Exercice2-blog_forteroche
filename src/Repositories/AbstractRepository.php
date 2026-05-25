@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Databases\Database;
 
 /**
- * Classe abstraite qui représente un manager. Elle récupère automatiquement le gestionnaire de base de données. 
+ * Classe abstraite qui représente un Repository. Elle récupère automatiquement le gestionnaire de base de données. 
  */
 abstract class AbstractRepository
 {
@@ -14,7 +14,7 @@ abstract class AbstractRepository
 
     /**
      * Constructeur de la classe.
-     * Il récupère automatiquement l'instance de DBManager. 
+     * Il récupère automatiquement l'instance de Database. 
      */
     public function __construct()
     {

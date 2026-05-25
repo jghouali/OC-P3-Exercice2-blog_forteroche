@@ -13,16 +13,16 @@ use PDOStatement;
 class Database
 {
     // Création d'une classe singleton qui permet de se connecter à la base de données.
-    // On crée une instance de la classe DBConnect qui permet de se connecter à la base de données.
+    // On crée une instance de la classe Database qui permet de se connecter à la base de données.
     private static $instance;
 
     private $db;
 
     /**
-     * Constructeur de la classe DBManager.
+     * Constructeur de la classe Database.
      * Initialise la connexion à la base de données.
      * Ce constructeur est privé. Pour récupérer une instance de la classe, il faut utiliser la méthode getInstance().
-     * @see DBManager::getInstance()
+     * @see Database::getInstance()
      */
     private function __construct()
     {
@@ -33,7 +33,7 @@ class Database
     }
 
     /**
-     * Méthode qui permet de récupérer l'instance de la classe DBManager.
+     * Méthode qui permet de récupérer l'instance de la classe Database.
      * @return Database
      */
     public static function getInstance(): Database

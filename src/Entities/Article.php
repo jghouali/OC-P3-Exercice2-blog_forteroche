@@ -6,7 +6,7 @@ use DateTime;
 
 /**
  * Entité Article, un article est défini par les champs
- * id, id_user, title, content, date_creation, date_update
+ * id, id_user, title, content, date_creation, date_update, viewsCount et commentsCount
  */
 class Article extends AbstractEntity
 {

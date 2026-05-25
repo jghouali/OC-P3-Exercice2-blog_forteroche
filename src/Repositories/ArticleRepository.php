@@ -26,6 +26,10 @@ class ArticleRepository extends AbstractRepository
         return $articles;
     }
 
+    /**
+     * Récupère tous les articles mais avec une colonne comments_count.
+     * @return array : un tableau d'objets Article.
+     */
     public function getAllArticlesWithCommentsCount(string $sort): array
     {
         $sql = "SELECT article.*,

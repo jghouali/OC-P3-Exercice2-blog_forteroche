@@ -75,7 +75,8 @@ class Comment extends AbstractEntity
 
     /**
      * Getter pour la date de création.
-     * @return DateTime
+     * la date est formatté selon la locale définit dans config.php
+     * @return string
      */
     public function getDateCreation(): string
     {

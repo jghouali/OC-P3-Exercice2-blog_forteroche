@@ -2,7 +2,6 @@
 
 namespace App\Views;
 
-use App\Services\DateFormatter;
 use Exception;
 
 /**
@@ -18,16 +17,17 @@ class View
     /**
      * Constructeur. 
      */
-    public function __construct($title)
+    public function __construct(string $title)
     {
         $this->title = $title;
     }
 
     /**
      * Cette méthode retourne une page complète. 
-     * @param string $viewPath : le chemin de la vue demandée par le controlleur. 
+     * @var string $viewPath : le chemin de la vue demandée par le controlleur. 
+     * @param string $viewName : le nom de la vue à charger
      * @param array $params : les paramètres que le controlleur a envoyé à la vue.
-     * @return string
+     * @return void
      */
     public function render(string $viewName, array $params = []): void
     {
